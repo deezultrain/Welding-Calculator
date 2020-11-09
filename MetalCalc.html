@@ -1,0 +1,489 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>TR Calculator</title>
+    <style type="text/css">
+        .mCell {
+            background-color: #Ed7D31;
+            color: white;
+        }
+
+        .blankRow {
+            height: 10px;
+            background-color:white !important;
+        }
+
+        .dataMissing {
+            border-color: red;
+        }
+        .dataTable tr:not(.blankRow){
+            background-color:#B4C6E7;
+        }
+        .dataTable tr:not(.blankRow):not(:first-child)  td:nth-child(2){
+            background-color:#D9E2F3;
+        }
+    </style>
+    <script type="text/javascript" src="jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        function CalculateSums() {
+            //first check that all textboxes have data
+
+            var D3, D4, D5, D6, D7, D36, D37, D38, D41, errs = 0;
+
+            //checking to see how many of the textboxes are empty (don't have a value). Gives them a red border if they are missing
+            errs = $('.inputData').filter(function (idx) {
+                if ($(this).val() == '') { $(this).addClass('dataMissing'); }
+                return $(this).val() == '';
+            }).length;
+
+            //if 0 textboxes are missing data we can proceed
+            if (errs == 0) {
+                $('.inputData').removeClass('dataMissing');
+                D3 = parseInt($('#txtTR8').val()); //Grab the TR8 textbox, turn its value into an integer
+                D4 = parseInt($('#txtTR6').val());
+                D5 = parseInt($('#txtMini').val());
+                D6 = parseInt($('#txtFlip8').val());
+                D7 = parseInt($('#txtFlip6').val());
+
+                //Round Coping
+                $('#lbl8RC').html(D3 + D6); //do the proper calculation and put that into the correct label
+                $('#lbl6RC').html(D4 + D7);
+                $('#lbl5RC').html(D5);
+
+                //Square Coping
+                $('#lbl8SC').html(D3 + D6);
+                $('#lbl6SC').html(D4 + D7);
+                $('#lbl5SC').html(D5);
+
+                $('#lblTRER').html((D3 + D4) * 2);
+                $('#lblMiniER').html(D5 * 2);
+                $('#lblFlipER').html((D6 + D7) * 2);
+
+                $('#lblTRMR').html((D3 * 9) + (D4 * 7));
+                $('#lblMiniMR').html(D5 * 6);
+                $('#lblFlipMR').html((D6 * 3) + (D7 * 2));
+
+                $('#lblTRBR').html((D3 * 6) + (D4 * 4));
+                $('#lblMiniBR').html(D5 * 3);
+
+                $('#lblTRFoot').html((D3 + D4) * 2);
+                $('#lblFMFoot').html((D5 + D6 + D7) * 2);
+
+                $('#lblTRMU').html((D3 + D4) * 2);
+                $('#lblFMMU').html((D5 + D6 + D7) * 2);
+
+                //these are used in multiple places so I'll store them for later rather then do the math multiple times
+                D36 = (D3 + D4) * 2;
+                D37 = D5 * 2
+                D38 = (D6 + D7) * 2;
+                D41 = (D36 + D37 + D38) * 2;
+
+                $('#lblTRFMU').html(D36);
+                $('#lblMiniFMU').html(D37);
+                $('#lblFlipFMU').html(D38);
+                $('#lblTRUT').html((D36 + D37) * 2);
+
+                $('#lbl8PVC').html(D3);
+                $('#lbl6PVC').html(D4);
+                $('#lbl5PVC').html(D5);
+
+                $('#lblTopCaps, #lblSleeves').html(D41);
+
+                $('#lblNuts').html(((D3 + D4) * 6) + ((D5 + D6 + D7) * 2));
+
+                //$('.screen').hide();
+                //$('#divSums').show();
+            }
+        }
+
+        function ShowMain() {
+            //$('.screen').hide();
+            //$('#divMain').show();
+        }
+
+        function Clear() {
+            $('.inputData').val(0);
+        }
+    </script>
+</head>
+<body>
+    <table>
+        <tr>
+            <td valign="top">
+                <div class="screen" id="divMain" style="height:100%">
+                    <table border="1">
+                        <tr>
+                            <td class="mCell">
+                                Model
+                            </td>
+                            <td>
+                                Quantity
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mCell">
+                                TR8
+                            </td>
+                            <td>
+                                <input class="inputData" type="number" min="1" value="1" id="txtTR8" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mCell">
+                                TR6
+                            </td>
+                            <td>
+                                <input class="inputData" type="number" min="1" value="2" id="txtTR6" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mCell">
+                                MINI
+                            </td>
+                            <td>
+                                <input class="inputData" type="number" min="1" value="3" id="txtMini" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mCell">
+                                FLIP 8
+                            </td>
+                            <td>
+                                <input class="inputData" type="number" min="1" value="4" id="txtFlip8" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mCell">
+                                FLIP 6
+                            </td>
+                            <td>
+                                <input class="inputData" type="number" min="1" value="5" id="txtFlip6" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input style="width:100%" type="button" value="Clear" onclick="Clear();return false" />
+                            </td>
+                            <td>
+                                <input style="width:100%" type="button" value="Calculate" onclick="CalculateSums();return false" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td>
+                <div class="screen" id="divSums" style="height:100%;overflow:auto;">
+                    <!--<input type="button" value="Back" onclick="ShowMain(); return false;" />-->
+                    <table class="dataTable" border="1">
+                        <tr style="background-color:#Ed7D31">
+                            <td>
+                                Part
+                            </td>
+                            <td>
+                                Quantity
+                            </td>
+                            <td>
+                                In Stock
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                8' Round Coping
+                            </td>
+                            <td align="right">
+                                <label id="lbl8RC"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                6' Round Coping
+                            </td>
+                            <td align="right">
+                                <label id="lbl6RC"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                5' Round Coping
+                            </td>
+                            <td align="right">
+                                <label id="lbl5RC"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr class="blankRow"></tr>
+                        <tr>
+                            <td>
+                                8' Square Coping
+                            </td>
+                            <td align="right">
+                                <label id="lbl8SC"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                6' Square Coping
+                            </td>
+                            <td align="right">
+                                <label id="lbl6SC"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                5' Square Coping
+                            </td>
+                            <td align="right">
+                                <label id="lbl5SC"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr class="blankRow"></tr>
+                        <tr>
+                            <td>
+                                TR End Rib
+                            </td>
+                            <td align="right">
+                                <label id="lblTRER"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Mini End Rib
+                            </td>
+                            <td align="right">
+                                <label id="lblMiniER"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Flip End Rib
+                            </td>
+                            <td align="right">
+                                <label id="lblFlipER"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr class="blankRow"></tr>
+                        <tr>
+                            <td>
+                                TR Mid Rib
+                            </td>
+                            <td align="right">
+                                <label id="lblTRMR"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Mini Mid Rib
+                            </td>
+                            <td align="right">
+                                <label id="lblMiniMR"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Flip Mid Rib
+                            </td>
+                            <td align="right">
+                                <label id="lblFlipMR"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr class="blankRow"></tr>
+                        <tr>
+                            <td>
+                                TR Bar Rib
+                            </td>
+                            <td align="right">
+                                <label id="lblTRBR"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Mini Bar Rib
+                            </td>
+                            <td align="right">
+                                <label id="lblMiniBR"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr class="blankRow"></tr>
+                        <tr>
+                            <td>
+                                TR Foot
+                            </td>
+                            <td align="right">
+                                <label id="lblTRFoot"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Flip/Mini Foot
+                            </td>
+                            <td align="right">
+                                <label id="lblFMFoot"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr class="blankRow"></tr>
+
+                        <tr>
+                            <td>
+                                TR M Upright
+                            </td>
+                            <td align="right">
+                                <label id="lblTRMU"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Flip/Mini M Upright
+                            </td>
+                            <td align="right">
+                                <label id="lblFMMU"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr class="blankRow"></tr>
+                        <tr>
+                            <td>
+                                TR FM Upright
+                            </td>
+                            <td align="right">
+                                <label id="lblTRFMU"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Mini FM Upright
+                            </td>
+                            <td align="right">
+                                <label id="lblMiniFMU"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Flip FM Upright
+                            </td>
+                            <td align="right">
+                                <label id="lblFlipFMU"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                TR Upright Tabs
+                            </td>
+                            <td align="right">
+                                <label id="lblTRUT"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr class="blankRow"></tr>
+                        <tr>
+                            <td>
+                                Top Caps
+                            </td>
+                            <td align="right">
+                                <label id="lblTopCaps"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Sleeves
+                            </td>
+                            <td align="right">
+                                <label id="lblSleeves"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr class="blankRow"></tr>
+                        <tr>
+                            <td>
+                                8' PVC
+                            </td>
+                            <td align="right">
+                                <label id="lbl8PVC"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                6' PVC
+                            </td>
+                            <td align="right">
+                                <label id="lbl6PVC"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                5' PVC
+                            </td>
+                            <td align="right">
+                                <label id="lbl5PVC"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr class="blankRow"></tr>
+                        <tr>
+                            <td>
+                                Nuts
+                            </td>
+                            <td align="right">
+                                <label id="lblNuts"></label>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
